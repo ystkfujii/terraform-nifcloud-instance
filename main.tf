@@ -1,4 +1,5 @@
 resource "tls_private_key" "this" {
+  count      = var.key_name == null ? 1 : 0
   algorithm = "RSA"
 }
 
