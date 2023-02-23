@@ -1,11 +1,11 @@
 resource "tls_private_key" "this" {
-  count      = var.key_name == null ? 1 : 0
+  count     = var.key_name == null ? 1 : 0
   algorithm = "RSA"
 }
 
 locals {
-  public_key  = var.key_name == null ? tls_private_key.this.public_key_openssh : var.key_name
-  private_key = var.key_name == null ? tls_private_key.this.private_key_pem : ""
+  public_key  = var.key_name == null ? tls_private_key.this[0].public_key_openssh : var.key_name
+  private_key = var.key_name == null ? tls_private_key.this[0].private_key_pem : ""
 }
 
 resource "nifcloud_key_pair" "this" {
