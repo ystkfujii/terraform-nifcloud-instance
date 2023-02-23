@@ -1,5 +1,3 @@
-#!/bin/bash
-
 configure_private_ip_address () {
   cat << EOS > /etc/netplan/01-netcfg.yaml
 network:
@@ -18,9 +16,4 @@ EOS
   netplan apply
 }
 
-configure_ssh_port () {
-  sed -i 's/^#*Port [0-9]*/Port ${custom_ssh_port}/' /etc/ssh/sshd_config
-}
-
 configure_private_ip_address
-configure_ssh_port

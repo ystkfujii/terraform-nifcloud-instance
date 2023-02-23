@@ -6,6 +6,19 @@ resource "tls_private_key" "this" {
 locals {
   public_key  = var.key_name == null ? tls_private_key.this[0].public_key_openssh : var.key_name
   private_key = var.key_name == null ? tls_private_key.this[0].private_key_pem : ""
+
+  # userdata
+  configure_ssh_port = templatefile("${path.module}/templates/configure_ssh_port.tftpl", {
+    custom_ssh_port = var.ssh_port,
+  })
+  configure_private_ip_address = var.interface_private == null ? "" : templatefile("${path.module}/templates/configure_private_ip_address.tftpl", {
+    private_ip_address = var.interface_private.ip_address,
+  })
+  user_data = templatefile("${path.module}/templates/userdata.tftpl", {
+    configure_private_ip_address = local.configure_private_ip_address,
+    configure_ssh_port           = local.configure_ssh_port,
+    extra_userdata               = var.extra_userdata,
+  })
 }
 
 resource "nifcloud_key_pair" "this" {
@@ -38,10 +51,7 @@ resource "nifcloud_instance" "this" {
     ip_address = var.interface_private == null ? null : "static"
   }
 
-  user_data = var.interface_private == null ? null : templatefile("${path.module}/scripts/userdata.sh", {
-    private_ip_address = var.interface_private.ip_address
-    custom_ssh_port    = var.ssh_port
-  })
+  user_data = local.user_data
 
   # The image_id changes when the OS image type is demoted from standard to public.
   lifecycle {
@@ -59,5 +69,3 @@ resource "nifcloud_volume" "this" {
   reboot          = var.volume_reboot
   accounting_type = var.accounting_type
 }
-
-

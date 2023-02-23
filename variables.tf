@@ -51,6 +51,11 @@ variable "ssh_port" {
   }
 }
 
+variable "extra_userdata" {
+  type    = string
+  default = ""
+}
+
 variable "volume_create" {
   description = "If ture, the volume is attached to the instance"
   type        = bool
