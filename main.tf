@@ -14,9 +14,13 @@ locals {
   configure_private_ip_address = var.interface_private == null ? "" : templatefile("${path.module}/templates/configure_private_ip_address.tftpl", {
     private_ip_address = var.interface_private.ip_address,
   })
+  configure_hostname = templatefile("${path.module}/templates/configure_hostname.tftpl", {
+    hostname = var.instance_name
+  })
   user_data = templatefile("${path.module}/templates/userdata.tftpl", {
     configure_private_ip_address = local.configure_private_ip_address,
     configure_ssh_port           = local.configure_ssh_port,
+    configure_hostname           = local.configure_hostname,
     extra_userdata               = var.extra_userdata,
   })
 }
