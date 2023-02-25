@@ -55,7 +55,6 @@ Then perform the following commands on the root folder:
 | public_ip_address   | The elastic IP to associate to the instance                                                                  | string | null                    |
 | interface_private   | The IP address and network ID for the private interface                                                      | object | null                    |
 | ssh_port            | SSH port                                                                                                     | number | 22                      |
-| volume_create       | If ture, the volume is attached to the instance                                                              | bool   | false                   |
 | volume_size         | The disk size(unit:GB)                                                                                       | number | 100                     |
 | volume_disk_type    | The volume description                                                                                       | string | High-Speed Storage A    |
 | volume_reboot       | When you want to increase the size of an existing volume, the argument that specifies server restart options | string | true                    |

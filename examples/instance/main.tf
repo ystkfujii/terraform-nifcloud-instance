@@ -31,8 +31,7 @@ module "instance" {
   key_name = "webkey"
 
   # volume
-  volume_create = true
-  volume_size   = 100
+  volume_size = 100
 }
 
 # Comment out if you want to store locally
