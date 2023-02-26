@@ -56,16 +56,10 @@ variable "extra_userdata" {
   default = ""
 }
 
-variable "volume_create" {
-  description = "If ture, the volume is attached to the instance"
-  type        = bool
-  default     = false
-}
-
 variable "volume_size" {
   description = "The disk size(unit:GB)"
   type        = number
-  default     = 100
+  default     = 0
 }
 
 variable "volume_disk_type" {

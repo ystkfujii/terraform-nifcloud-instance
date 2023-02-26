@@ -64,7 +64,7 @@ resource "nifcloud_instance" "this" {
 }
 
 resource "nifcloud_volume" "this" {
-  count = var.volume_create ? 1 : 0
+  count = var.volume_size == 0 ? 0 : 1
 
   size            = var.volume_size
   volume_id       = var.instance_name
