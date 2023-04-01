@@ -16,7 +16,6 @@ variable "security_group_name" {
 variable "key_name" {
   description = "The key name of the Key Pair to use for the instance. By default, sshkey is generated"
   type        = string
-  default     = null
 }
 
 variable "public_ip_address" {

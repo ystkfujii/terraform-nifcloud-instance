@@ -17,9 +17,3 @@ output "public_ip" {
   description = "The public ip address of instance"
   value       = nifcloud_instance.this.public_ip
 }
-
-output "private_key" {
-  description = "The generated private key"
-  value       = local.private_key
-  sensitive   = true
-}
