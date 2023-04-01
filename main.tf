@@ -1,34 +1,20 @@
-resource "tls_private_key" "this" {
-  count     = var.key_name == null ? 1 : 0
-  algorithm = "RSA"
-}
-
 locals {
-  public_key  = var.key_name == null ? tls_private_key.this[0].public_key_openssh : var.key_name
-  private_key = var.key_name == null ? tls_private_key.this[0].private_key_pem : ""
-
   # userdata
   configure_ssh_port = templatefile("${path.module}/templates/configure_ssh_port.tftpl", {
-    custom_ssh_port = var.ssh_port,
+    custom_ssh_port = var.ssh_port
   })
   configure_private_ip_address = var.interface_private == null ? "" : templatefile("${path.module}/templates/configure_private_ip_address.tftpl", {
-    private_ip_address = var.interface_private.ip_address,
+    private_ip_address = var.interface_private.ip_address
   })
   configure_hostname = templatefile("${path.module}/templates/configure_hostname.tftpl", {
     hostname = var.instance_name
   })
   user_data = templatefile("${path.module}/templates/userdata.tftpl", {
-    configure_private_ip_address = local.configure_private_ip_address,
-    configure_ssh_port           = local.configure_ssh_port,
-    configure_hostname           = local.configure_hostname,
-    extra_userdata               = var.extra_userdata,
+    configure_private_ip_address = local.configure_private_ip_address
+    configure_ssh_port           = local.configure_ssh_port
+    configure_hostname           = local.configure_hostname
+    extra_userdata               = var.extra_userdata
   })
-}
-
-resource "nifcloud_key_pair" "this" {
-  count      = var.key_name == null ? 1 : 0
-  key_name   = var.instance_name
-  public_key = base64encode(local.public_key)
 }
 
 data "nifcloud_image" "this" {
@@ -40,7 +26,7 @@ resource "nifcloud_instance" "this" {
   instance_id       = var.instance_name
   availability_zone = var.availability_zone
   image_id          = data.nifcloud_image.this.image_id
-  key_name          = var.key_name == null ? nifcloud_key_pair.this[0].key_name : var.key_name
+  key_name          = var.key_name
   security_group    = var.security_group_name
   instance_type     = var.instance_type
   accounting_type   = var.accounting_type

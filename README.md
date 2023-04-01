@@ -2,12 +2,10 @@
 
 Terraform module for provisioning instance.
 
-
 Included resource
 - nifcloud_key_pair
 - nifcloud_instance
 - nifcloud_volume
-
 
 ## Usage
 
@@ -26,7 +24,7 @@ resource "nifcloud_security_group" "this" {
 
 # module
 module "instance" {
-  source = "../../"
+  source  = "ystkfujii/instance/nifcloud"
 
   instance_name     = "instance"
   availability_zone = "west-11"
@@ -51,7 +49,7 @@ Then perform the following commands on the root folder:
 | availability_zone   | The availability zone                                                                                        | string |                         |
 | instance_name       | Used as instance_id and volume_id                                                                            | string |                         |
 | security_group_name | The security group name to associate with instance                                                           | string |                         |
-| key_name            | The key name of the Key Pair to use for the instance. By default, sshkey is generated                        | string | null                    |
+| key_name            | The key name of the Key Pair to use for the instance                                                         | string |                         |
 | public_ip_address   | The elastic IP to associate to the instance                                                                  | string | null                    |
 | interface_private   | The IP address and network ID for the private interface                                                      | object | null                    |
 | ssh_port            | SSH port                                                                                                     | number | 22                      |
