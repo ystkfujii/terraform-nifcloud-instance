@@ -98,10 +98,7 @@ variable "accounting_type" {
   type        = string
   default     = "1"
   validation {
-    condition = anytrue([
-      var.accounting_type == "1", // Monthly
-      var.accounting_type == "2", // Pay per use
-    ])
+    condition     = contains(["1", "2"], var.accounting_type)
     error_message = "Must be a 1 or 2."
   }
 }
